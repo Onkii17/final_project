@@ -1,0 +1,125 @@
+-- Database: feedback_system
+CREATE DATABASE feedback_system;
+USE feedback_system;
+
+-- Users table
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id VARCHAR(20) UNIQUE NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Teachers table
+CREATE TABLE teachers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email varchar(100),
+    department VARCHAR(50) NOT NULL,
+    semester int(10),
+    subject VARCHAR(5) NOT NULL,
+);
+-- SQL to insert all teachers into your database
+INSERT INTO teachers (name, email, department, semester, subject) VALUES
+-- Semester 1
+('Prof. Divya Patil', 'divya.patil@example.com', 'Computer Science', 1, 'C - Language'),
+('Prof. Divya Patil', 'divya.patil@example.com', 'Computer Science', 1, 'Office Automation'),
+('Prof. Kalyani Kulkarni', 'kalyani.kulkarni@example.com', 'Sanskrit', 1, 'Sanskrit'),
+('Prof. Pooja Gajra', 'pooja.gajra@example.com', 'Mathematics', 1, 'Fundamental of Statistics'),
+('Prof. Md. Umar Shaikh', 'umar.shaikh@example.com', 'Mathematics', 1, 'Discrete Mathematics'),
+('Prof. Kavita Salvi Thever', 'kavita.thever@example.com', 'English', 1, 'English'),
+
+-- Semester 2
+('Prof. Divya Patil', 'divya.patil@example.com', 'Computer Science', 2, 'C++'),
+('Prof. Sneha Lokhande', 'sneha.lokhande@example.com', 'Computer Science', 2, 'Computer Networking'),
+('Prof. Kalyani Kulkarni', 'kalyani.kulkarni@example.com', 'Sanskrit', 2, 'Sanskrit'),
+('Prof. Shruti Surve', 'shruti.surve@example.com', 'English', 2, 'English'),
+('Prof. Tiyasha Pandit', 'tiyasha.pandit@example.com', 'Environmental Science', 2, 'Environmental Studies (EVS)'),
+('Prof. Shilpa More', 'shilpa.more@example.com', 'Mathematics', 2, 'Numerical Methods'),
+('Prof. Pooja Gajra', 'pooja.gajra@example.com', 'Mathematics', 2, 'Statistics'),
+
+-- Semester 3
+('Prof. Md. Umar Shaikh', 'umar.shaikh@example.com', 'Computer Science', 3, 'Database management System (D Cloud Computing)'),
+('Prof. Divya Patil', 'divya.patil@example.com', 'Computer Science', 3, 'Data Structures'),
+('Prof. Sneha Lokhande', 'sneha.lokhande@example.com', 'Mathematics', 3, 'DM'),
+('Prof. Shilpa More', 'shilpa.more@example.com', 'Computer Science', 3, 'Web Technology - 1'),
+
+-- Semester 4
+('Prof. Md. Umar Shaikh', 'umar.shaikh@example.com', 'Computer Science', 4, 'PI SQL'),
+('Prof. Md. Umar Shaikh', 'umar.shaikh@example.com', 'Computer Science', 4, 'Computer Graphics'),
+('Prof. Divya Patil', 'divya.patil@example.com', 'Computer Science', 4, 'Web Technology - 2'),
+('Prof. Kalyani Kulkarni', 'kalyani.kulkarni@example.com', 'Electronics', 4, 'Digital Electronics'),
+
+-- Semester 5
+('Prof. Sneha Lokhande', 'sneha.lokhande@example.com', 'Computer Science', 5, 'Software Testing'),
+('Prof. Ankit Shrivastava', 'ankit.shrivastava@example.com', 'Computer Science', 5, 'Core Java'),
+('Prof. Md. Umar Shaikh', 'umar.shaikh@example.com', 'Computer Science', 5, 'PHP'),
+('Prof. Savita Chandekar', 'savita.chandekar@example.com', 'Computer Science', 5, 'Asp.net'),
+
+-- Semester 6
+('Prof. Md. Umar Shaikh', 'umar.shaikh@example.com', 'Computer Science', 6, 'Python Programming'),
+('Prof. Ankit Shrivastava', 'ankit.shrivastava@example.com', 'Computer Science', 6, 'Android Programming'),
+('Prof. Sneha Lokhande', 'sneha.lokhande@example.com', 'Computer Science', 6, 'Cyber Security'),
+('Prof. Khelkar', 'khelkar@example.com', 'Computer Science', 6, 'Computer Networking'),
+
+-- Additional Teachers
+('Prof. Kavita Salvi Thever', 'kavita.thever@example.com', 'Management', NULL, 'Operation Management'),
+('Prof. Pooja Gajra', 'pooja.gajra@example.com', 'Law', NULL, 'Company law'),
+('Prof. Kavita Kushwaha', 'kavita.kushwaha@example.com', 'Research', NULL, 'Research Methodology'),
+('Prof. Purna Shah', 'purna.shah@example.com', 'Business', NULL, 'Entrepreneur Development'),
+('Prof. Rani Dsouza', 'rani.dsouza@example.com', 'Public Administration', NULL, 'Public administration'),
+('Prof. Rohit Vishwanath', 'rohit.vishwanath@example.com', 'Political Science', NULL, 'political science'),
+('Prof. Shruti Surve', 'shruti.surve@example.com', 'English', NULL, 'English'),
+('Prof. Nisha Amin', 'nisha.amin@example.com', 'Economics', NULL, 'economics/ gs 2'),
+('Prof. Tiyasha Majumdar', 'tiyasha.majumdar@example.com', 'Sanskrit', NULL, 'Sanskrit'),
+('Prof. Yougandhra Tambe', 'yougandhra.tambe@example.com', 'General Studies', NULL, 'gs 1');
+
+-- Subjects table
+CREATE TABLE subjects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    semester INT NOT NULL
+);
+
+-- Teacher-Subject mapping
+CREATE TABLE teacher_subjects (
+    teacher_id INT NOT NULL,
+    subject_id INT NOT NULL,
+    PRIMARY KEY (teacher_id, subject_id),
+    FOREIGN KEY (teacher_id) REFERENCES teachers(id),
+    FOREIGN KEY (subject_id) REFERENCES subjects(id)
+);
+
+-- Feedback table
+CREATE TABLE feedback (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    teacher_id INT NOT NULL,
+    semester INT NOT NULL,
+    q1 INT NOT NULL,
+    q2 INT NOT NULL,
+    q3 INT NOT NULL,
+    q4 INT NOT NULL,
+    q5 INT NOT NULL,
+    q6 INT NOT NULL,
+    q7 INT NOT NULL,
+    q8 INT NOT NULL,
+    q9 INT NOT NULL,
+    q10 INT NOT NULL,
+    comments TEXT,
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES users(id),
+    FOREIGN KEY (teacher_id) REFERENCES teachers(id)
+);
+
+-- Admin table
+CREATE TABLE admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
